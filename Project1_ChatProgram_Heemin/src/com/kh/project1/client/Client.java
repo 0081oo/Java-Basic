@@ -25,7 +25,7 @@ class ClientWindow{
 	}
 	
 	public void init() {
-		// Frame 생성 (상속 받았을때는 new로 안해주고 이렇게 해주면 된다) 
+		// Frame 생성 : JFrame을 상속받는 방법을 알게되어서 그렇게 하려고 했으나.. 다시 원래방법대로 하기로 했다.
 		cFrame = new JFrame("Client");
 		cFrame.setSize(400,500);
 		
@@ -39,7 +39,7 @@ class ClientWindow{
 		JScrollPane scroll = new JScrollPane(text);
 		cFrame.add(scroll, BorderLayout.CENTER);
 		
-		// 판넬 생성하고 message와 send 버튼을 배치
+		// 판넬 생성하고 textField와 send 버튼을 배치
 		input = new JPanel();
 		input.setLayout(new BorderLayout());
 		
@@ -49,6 +49,7 @@ class ClientWindow{
 		input.add(message, BorderLayout.CENTER);
 		input.add(sendBt, BorderLayout.EAST);
 		
+		// 마우스로 send버튼 클릭하면 textField의 메시지가 전송되도록 이벤트처리
 		sendBt.addMouseListener(new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -56,6 +57,7 @@ class ClientWindow{
 			}
 		});
 		
+		// textField에 입력하고 Enter치면 메시지가 전송되도록 이벤트처리
 		message.addKeyListener(new KeyAdapter() {
 //			@Override 
 			public void KeyPressed(KeyEvent e) {
@@ -111,7 +113,7 @@ class ClientWindow{
 			
 		} catch (IOException e) {
 //			e.printStackTrace();
-			text.append("서버와의 연결이 되지 않았습니다.");
+			text.append("서버와 연결이 되지 않았습니다.");
 		}
 	
 	}
@@ -120,10 +122,10 @@ class ClientWindow{
 	// 위에서 send버튼 클릭시 그리고 입력후 엔터쳤을시 두 번의 방법으로 서버에 메시지를 보내야 하니까
 	// 여러번 사용될 코드기 때문에 아얘 메소드로 따로 만들었다.
 	public void sendMessage() {
-		String send = message.getText(); // textField의 문자열을 받아와서 msg변수에 저장
+		String send = message.getText(); // textField의 문자열을 받아와서 send변수에 저장
 		message.setText(""); // 받아오면 다시 빈 문자열로 만들어준다(버퍼비우기처럼)
 		
-		// textArea에 내용을 붙여넣고 맨 아래로 스크롤해준다 
+		// textArea에 내용을 넣고 맨 아래로 스크롤해준다 
 		text.append("[ " + this.clientName + " ]  " + send + "\n");
 		text.setCaretPosition(text.getText().length()); 
 		
@@ -133,7 +135,7 @@ class ClientWindow{
 			sockOut.flush();
 		} catch (IOException e) {
 //			e.printStackTrace();
-			text.append("서버와의 연결이 되지 않았습니다.");
+			text.append("서버와 연결이 되지 않았습니다.");
 		}
 		
 	}
