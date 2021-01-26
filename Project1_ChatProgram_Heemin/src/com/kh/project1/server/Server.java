@@ -10,7 +10,7 @@ import java.net.*;
 // 아무튼 PrintWriter 쓰니까 해결되기는 했다.
 
 public class Server {
-	
+
 	public static void main(String[] args) {
 		
 		try {

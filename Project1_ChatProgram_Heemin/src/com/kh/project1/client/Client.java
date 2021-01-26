@@ -5,7 +5,7 @@ import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-	
+
 class ClientWindow{
 	JFrame cFrame;
 	JTextArea text; // 채팅 내용을 보여줄 TextArea
