@@ -61,7 +61,6 @@ class ClientWindow{
 		message.addKeyListener(new KeyAdapter() {
 //			@Override 
 			public void KeyPressed(KeyEvent e) {
-				super.keyPressed(e);
 				
 				// 입력받은 키가 Enter라면 메시지를 전송
 				int keyCode = e.getKeyCode();
