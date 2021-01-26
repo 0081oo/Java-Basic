@@ -39,7 +39,8 @@ public class Server {
 					System.out.println("Client가 보낸 메시지 입니다 : " + recv);
 				
 					System.out.print("Client로 보낼 메시지 입력하세요 : ");
-					send = keyboardIn.readLine();
+					// readLine() 해줄때 뒤에 "\r\n"을 붙여줘야 한다.근데 이거 붙이니까 오히려 이상하게 나온다ㅠ
+					send = keyboardIn.readLine(); 
 					sockOut.println(send);
 					sockOut.flush();
 

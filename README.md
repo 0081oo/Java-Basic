@@ -18,4 +18,9 @@
 	-> 해결. client에서 recv = sockIn.readLine() 해줄때 recv == null이면 종료되게하면 된다.
 4. 가끔 send버튼을 두번 눌러줘야 갈때가 있는데 왜인지는 모르겠다. 개행문자가 버퍼에 남거나 무슨 그런 문제가 있나?
 
+
 의문 : 왜 서버코드에서 BufferedWriter sockOut쓰고 Scanner객체로 문자열받아서 넘기면 client로 잘 안넘어갈까? -> PrintWriter sockOut하면 잘 되긴한다.
+
+선생님께서 서버코드에서 readline()해서 메시지 send할때 "\r\n"붙이라고 하셨는데 그렇게 하면 서버가 메시지를 두번씩 보낸다.
+한번은 내가쓴거 하나는 공백메시지 이렇게. 왜그럴까ㅠㅠㅠ
+
