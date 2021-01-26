@@ -87,7 +87,7 @@ class ClientWindow{
 			sockOut = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
 			
 			// 최초로 보여줄 메시지. 어차피 sock이 연결안되면 밑에서 catch처리 되기때문에 여기 한번 넣어주면 될 것 같다.
-			text.append("서버와 연결되었습니다. 메시지를 입력하세요");
+			text.append("서버와 연결되었습니다. 메시지를 입력하세요\n");
 			while(true) {
 				// 서버가 보내준 내용을 읽어온다
 				recv = sockIn.readLine();
