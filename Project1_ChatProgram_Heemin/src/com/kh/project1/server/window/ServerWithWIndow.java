@@ -1,4 +1,4 @@
-package com.kh.project1.client;
+package com.kh.project1.server.window;
 
 import java.net.*;
 import java.io.*;
@@ -6,27 +6,25 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-class ClientWindow{
+class ServerWindow{
 	JFrame cFrame;
 	JTextArea text; // 채팅 내용을 보여줄 TextArea
 	JTextField message; // 메시지를 입력할 TextField
 	JButton sendBt; // send 버튼
 	JPanel input; // 메시지 입력창과 send 버튼을 넣기위해서 선언
-	String clientName;
 	
 	Socket sock;
 	BufferedReader sockIn;
 	BufferedWriter sockOut;
 	
 	
-	public ClientWindow() {
-		clientName = JOptionPane.showInputDialog("대화명을 입력하세요");
+	public ServerWindow() {
 		init();
 	}
 	
 	public void init() {
 		// Frame 생성 : JFrame을 상속받는 방법을 알게되어서 그렇게 하려고 했으나.. 다시 원래방법대로 하기로 했다.
-		cFrame = new JFrame("Client");
+		cFrame = new JFrame("Server");
 		cFrame.setSize(400,500);
 		
 		
@@ -77,57 +75,60 @@ class ClientWindow{
 		cFrame.setVisible(true);
 	}
 	
-	// 서버와 연결하고 서버로부터 받아온 메시지를 textArea에 보여주는 connect() 메소드
+	// 서버를 열고 클라이언트의 접속을 받는다
 	public void connect(){
 		String recv = "";
 		try {
-			sock = new Socket("127.0.0.1", 5100);
+			ServerSocket sSocket = new ServerSocket(5100);
+			text.append("서버 준비 완료. 클라이언트를 기다립니다.\n");
+			
+			Socket sock = sSocket.accept();
+			text.append("접속 클라이언트 정보 : " + sock.getInetAddress() + " : " + sock.getPort() + "\n");
 			
 			sockIn = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			sockOut = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
 			
-			// 최초로 보여줄 메시지. 어차피 sock이 연결안되면 밑에서 catch처리 되기때문에 여기 한번 넣어주면 될 것 같다.
-			text.append("서버와 연결되었습니다. 메시지를 입력하세요\n");
 			while(true) {
-				// 서버가 보내준 내용을 읽어온다
+				// 클라이언트가 보내준 내용 읽어온다
 				recv = sockIn.readLine();
 				
-				// 서버가 종료하면 2초후 클라이언트도 종료
+				// 클라이언트가 종료하면 알림메시지 알려주기
 				if(recv == null) {
-					text.append("서버와의 연결이 끊어졌습니다. 2초후 프로그램을 종료합니다.");
+					text.append("클라이언트가 채팅을 종료하였습니다.\n1분동안 클라이언트 접속 없을시 자동으로 종료합니다.\n");
 					try {
-						Thread.sleep(2000); // 2초 기다렸다가 프로그램을 종료한다.
-						System.exit(0);
+						Thread.sleep(20000); // 1분기다렸다가 프로그램을 종료한다.
+						if(recv == null) {
+							text.append("1분동안 클라이언트 접속 없었기에 자동으로 종료합니다.\n");
+							System.exit(0);
+						}
+						text.append("접속 클라이언트 정보 : " + sock.getInetAddress() + " : " + sock.getPort() + "\n");
+						
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
 				else {
-					// textArea에 서버가 보내준 내용을 붙여넣고 맨 아래로 스크롤해준다 
-					text.append("[ Server ]  " + recv + "\n");
+					// textArea에 클라이언트가 보낸 메시지 붙이기
+					text.append(recv + "\n");
 					text.setCaretPosition(text.getText().length());
 				}
 			}
-		} catch (UnknownHostException e) {
-//			e.printStackTrace();
-			text.append("서버의 주소를 찾을 수 없습니다.");
-			
 		} catch (IOException e) {
 //			e.printStackTrace();
-			text.append("서버와 연결이 되지 않았습니다.");
+			text.append("클라이언트와 연결이 종료되었습니다.");
 		}
 	
 	}
 	
-	// textField에 입력한 메시지를 서버로 보내주는 메소드 sendMessage()
-	// 위에서 send버튼 클릭시 그리고 입력후 엔터쳤을시 두 번의 방법으로 서버에 메시지를 보내야 하니까
+	// textField에 입력한 메시지를 클라이언트로 보내주는 메소드 sendMessage()
+	// 위에서 send버튼 클릭시 그리고 입력후 엔터쳤을시 두 번의 방법으로 클라이언트에 메시지를 보내야 하니까
 	// 여러번 사용될 코드기 때문에 아얘 메소드로 따로 만들었다.
 	public void sendMessage() {
-		String send = "[ " + this.clientName + " ]  " + message.getText() + "\r\n"; // textField의 문자열을 받아와서 send변수에 저장
+		String send = message.getText() + "\r\n"; // textField의 문자열을 받아와서 send변수에 저장
 		message.setText(""); // 받아오면 다시 빈 문자열로 만들어준다(버퍼비우기처럼)
 		
 		// textArea에 내용을 넣고 맨 아래로 스크롤해준다 
-		text.append(send);
+		text.append("[ " + "Server" + " ]  " + send);
 		text.setCaretPosition(text.getText().length()); 
 		
 		// server에게 메시지 전송
@@ -136,18 +137,19 @@ class ClientWindow{
 			sockOut.flush();
 		} catch (IOException e) {
 //			e.printStackTrace();
-			text.append("서버와 연결이 되지 않았습니다.");
+			text.append("연결이 되지 않았습니다.");
 		}
 		
 	}
 }
-public class Client {
+
+public class ServerWithWIndow {
 
 	public static void main(String[] args) {
-		ClientWindow client = new ClientWindow();
-		client.show();
-		client.connect();
+		ServerWindow server = new ServerWindow();
+		server.show();
+		server.connect();
+
 	}
 
 }
-

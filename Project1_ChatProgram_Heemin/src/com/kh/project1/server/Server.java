@@ -1,5 +1,6 @@
 package com.kh.project1.server;
 
+/* 콘솔로 실행되는 서버 : GUI서버는 ServerWithWindow코드 */
 
 import java.io.*;
 import java.net.*;
