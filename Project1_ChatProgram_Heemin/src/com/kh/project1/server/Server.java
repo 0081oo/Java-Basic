@@ -44,14 +44,12 @@ public class Server {
 					send = keyboardIn.readLine(); 
 					sockOut.println(send);
 					sockOut.flush();
-
 				}
 			}
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

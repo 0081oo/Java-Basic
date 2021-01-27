@@ -1,5 +1,7 @@
 package com.kh.project1.server.window;
 
+/* Client코드먼저 만든후 거기에서 상당부분 붙여넣기 하였으므로 자세한 주석은 Client.java참고 */
+
 import java.net.*;
 import java.io.*;
 import java.awt.*;
@@ -23,17 +25,13 @@ class ServerWindow{
 	}
 	
 	public void init() {
-		// Frame 생성 : JFrame을 상속받는 방법을 알게되어서 그렇게 하려고 했으나.. 다시 원래방법대로 하기로 했다.
+		// Frame 생성
 		cFrame = new JFrame("Server");
 		cFrame.setSize(400,500);
 		
-		
-		// 채팅 내용을 보여주는 Text변수는 사용자가 쓸 수 없도록 setEditable 함수를 이용
 		text = new JTextArea();
-		text.setEditable(false);
+		text.setEditable(false); // 사용자가 마음대로 편집할 수 없도록
 		
-		// scroll pane 은 컴포넌트에 스크롤 기능을 제공한다. textArea와 많이 같이쓴다!
-		// 채팅량이 많아져서 text변수가 보이기에 꽉차면 위로 스크롤을 올리려고 scrollPane을 사용
 		JScrollPane scroll = new JScrollPane(text);
 		cFrame.add(scroll, BorderLayout.CENTER);
 		
@@ -70,7 +68,7 @@ class ServerWindow{
 	
 	public void show() {
 		cFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		cFrame.setResizable(false); // 사용자가 창 크기를 마우스드래그로 조정못하게
+		cFrame.setResizable(false); 
 		cFrame.setVisible(true);
 	}
 	
@@ -96,7 +94,7 @@ class ServerWindow{
 					text.append("클라이언트가 채팅을 종료하였습니다.\n1분동안 클라이언트 접속 없을시 자동으로 종료합니다.\n");
 					try {
 						sSocket.close();
-						Thread.sleep(60000); // 1분기다렸다가 프로그램을 종료한다.
+						Thread.sleep(60000); // 1분기다렸다가 프로그램을 종료한다
 						if(recv == null) {
 							System.exit(0);
 						}
@@ -112,15 +110,11 @@ class ServerWindow{
 				}
 			}
 		} catch (IOException e) {
-//			e.printStackTrace();
 			text.append("클라이언트와 연결이 종료되었습니다.\n");
 		}
 	
 	}
 	
-	// textField에 입력한 메시지를 클라이언트로 보내주는 메소드 sendMessage()
-	// 위에서 send버튼 클릭시 그리고 입력후 엔터쳤을시 두 번의 방법으로 클라이언트에 메시지를 보내야 하니까
-	// 여러번 사용될 코드기 때문에 아얘 메소드로 따로 만들었다.
 	public void sendMessage() {
 		String send = message.getText() + "\r\n"; // textField의 문자열을 받아와서 send변수에 저장
 		message.setText(""); // 받아오면 다시 빈 문자열로 만들어준다(버퍼비우기처럼)
@@ -134,7 +128,6 @@ class ServerWindow{
 			sockOut.write(send);
 			sockOut.flush();
 		} catch (IOException e) {
-//			e.printStackTrace();
 			text.append("연결이 되지 않았습니다.");
 		}
 		
@@ -147,7 +140,6 @@ public class ServerWithWIndow {
 		ServerWindow server = new ServerWindow();
 		server.show();
 		server.connect();
-
 	}
 
 }
