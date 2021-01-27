@@ -34,7 +34,7 @@
 ## 결과물
 
 1. 클라이언트 실행시
-![Mockup Image](./img/1_Clientname.png)
+![Mockup Image](./img/1_ClientName.png)
 
 
 2. 서버와 클라이언트 연결 되었을 때
