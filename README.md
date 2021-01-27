@@ -33,4 +33,26 @@
 
 ## 결과물
 
+1. 클라이언트 실행시
+![Mockup Image](./img/1_Clientname.png)
+
+
+2. 서버와 클라이언트 연결 되었을 때
+![Mockup Image](./img/2_FirstConnect.png)
+
+
+3. 채팅중
+![Mockup Image](./img/3_Chat.png)
+
+
+4. 스크롤 내려가는지 확인
+![Mockup Image](./img/4_Scroll.png)
+
+
+5. 프로그램 종료 (클라이언트가 종료시 & 서버가 종료시)
+![Mockup Image](./img/5_Terminated.png)
+
+![Mockup Image](./img/6_TerminatedS.png)
+
+
 
