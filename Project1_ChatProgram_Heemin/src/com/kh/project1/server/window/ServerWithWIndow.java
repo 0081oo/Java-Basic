@@ -96,12 +96,10 @@ class ServerWindow{
 				if(recv == null) {
 					text.append("클라이언트가 채팅을 종료하였습니다.\n1분동안 클라이언트 접속 없을시 자동으로 종료합니다.\n");
 					try {
-						Thread.sleep(20000); // 1분기다렸다가 프로그램을 종료한다.
+						Thread.sleep(60000); // 1분기다렸다가 프로그램을 종료한다.
 						if(recv == null) {
-							text.append("1분동안 클라이언트 접속 없었기에 자동으로 종료합니다.\n");
 							System.exit(0);
 						}
-						text.append("접속 클라이언트 정보 : " + sock.getInetAddress() + " : " + sock.getPort() + "\n");
 						
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -131,7 +129,7 @@ class ServerWindow{
 		text.append("[ " + "Server" + " ]  " + send);
 		text.setCaretPosition(text.getText().length()); 
 		
-		// server에게 메시지 전송
+		// 클라이언트에게 메시지 전송
 		try {
 			sockOut.write(send);
 			sockOut.flush();
