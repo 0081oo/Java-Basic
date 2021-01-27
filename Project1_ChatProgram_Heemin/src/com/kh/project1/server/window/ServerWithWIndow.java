@@ -57,9 +57,8 @@ class ServerWindow{
 		
 		// textField에 입력하고 Enter치면 메시지가 전송되도록 이벤트처리
 		message.addKeyListener(new KeyAdapter() {
-//			@Override 
-			public void KeyPressed(KeyEvent e) {
-				
+			@Override
+			public void keyPressed(KeyEvent e) {
 				// 입력받은 키가 Enter라면 메시지를 전송
 				int keyCode = e.getKeyCode();
 				if(keyCode == KeyEvent.VK_ENTER) {
@@ -96,6 +95,7 @@ class ServerWindow{
 				if(recv == null) {
 					text.append("클라이언트가 채팅을 종료하였습니다.\n1분동안 클라이언트 접속 없을시 자동으로 종료합니다.\n");
 					try {
+						sSocket.close();
 						Thread.sleep(60000); // 1분기다렸다가 프로그램을 종료한다.
 						if(recv == null) {
 							System.exit(0);
@@ -113,7 +113,7 @@ class ServerWindow{
 			}
 		} catch (IOException e) {
 //			e.printStackTrace();
-			text.append("클라이언트와 연결이 종료되었습니다.");
+			text.append("클라이언트와 연결이 종료되었습니다.\n");
 		}
 	
 	}

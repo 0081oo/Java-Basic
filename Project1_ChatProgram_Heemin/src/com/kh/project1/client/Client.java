@@ -59,9 +59,8 @@ class ClientWindow{
 		
 		// textField에 입력하고 Enter치면 메시지가 전송되도록 이벤트처리
 		message.addKeyListener(new KeyAdapter() {
-//			@Override 
-			public void KeyPressed(KeyEvent e) {
-				
+			@Override
+			public void keyPressed(KeyEvent e) {
 				// 입력받은 키가 Enter라면 메시지를 전송
 				int keyCode = e.getKeyCode();
 				if(keyCode == KeyEvent.VK_ENTER) {
@@ -94,7 +93,7 @@ class ClientWindow{
 				
 				// 서버가 종료하면 2초후 클라이언트도 종료
 				if(recv == null) {
-					text.append("서버와의 연결이 끊어졌습니다. 2초후 프로그램을 종료합니다.");
+					text.append("서버와의 연결이 끊어졌습니다. 2초후 프로그램을 종료합니다.\n");
 					try {
 						Thread.sleep(2000); // 2초 기다렸다가 프로그램을 종료한다.
 						System.exit(0);
@@ -110,11 +109,11 @@ class ClientWindow{
 			}
 		} catch (UnknownHostException e) {
 //			e.printStackTrace();
-			text.append("서버의 주소를 찾을 수 없습니다.");
+			text.append("서버의 주소를 찾을 수 없습니다.\n");
 			
 		} catch (IOException e) {
 //			e.printStackTrace();
-			text.append("서버와 연결이 되지 않았습니다.");
+			text.append("서버와 연결이 되지 않았습니다.\n");
 		}
 	
 	}
@@ -136,7 +135,7 @@ class ClientWindow{
 			sockOut.flush();
 		} catch (IOException e) {
 //			e.printStackTrace();
-			text.append("서버와 연결이 되지 않았습니다.");
+			text.append("서버와 연결이 되지 않았습니다.\n");
 		}
 		
 	}
