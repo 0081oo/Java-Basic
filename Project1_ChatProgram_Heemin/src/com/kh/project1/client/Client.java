@@ -96,6 +96,7 @@ class ClientWindow{
 					text.append("서버와의 연결이 끊어졌습니다. 2초후 프로그램을 종료합니다.\n");
 					try {
 						Thread.sleep(2000); // 2초 기다렸다가 프로그램을 종료한다.
+						sock.close();
 						System.exit(0);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
